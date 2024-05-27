@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/05/27 20:17:05 by edouard          ###   ########.fr       */
+/*   Updated: 2024/05/27 20:36:13 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 typedef pthread_mutex_t t_mutex;
 typedef struct s_table t_table;
+
 typedef struct s_fork
 {
 	t_mutex fork;
@@ -41,6 +42,23 @@ typedef struct s_philo
 	t_table *table;
 } t_philo;
 
+/*
+** ANSI Escape Sequences for Bold Text Colors
+** Usage:
+**     printf(R "This is red text." RST);
+**     printf(B "This is blue text." RST);
+** Remember to use RST to reset the color after setting it.
+*/
+
+#define RST "\033[0m"	 /* Reset to default color */
+#define RED "\033[1;31m" /* Bold Red */
+#define G "\033[1;32m"	 /* Bold Green */
+#define Y "\033[1;33m"	 /* Bold Yellow */
+#define B "\033[1;34m"	 /* Bold Blue */
+#define M "\033[1;35m"	 /* Bold Magenta */
+#define C "\033[1;36m"	 /* Bold Cyan */
+#define W "\033[1;37m"	 /* Bold White */
+
 struct s_table
 {
 	long nb_philo;
@@ -56,4 +74,5 @@ struct s_table
 	t_mutex death_mutex;
 };
 
+void error_exit(const char *str);
 #endif

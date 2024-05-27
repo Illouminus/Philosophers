@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   outils.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 10:06:39 by edouard           #+#    #+#             */
-/*   Updated: 2024/05/27 20:45:34 by edouard          ###   ########.fr       */
+/*   Created: 2024/05/27 20:26:27 by edouard           #+#    #+#             */
+/*   Updated: 2024/05/27 20:36:27 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philosophers.h"
 
-int main(int argc, char **argv)
+void error_exit(const char *str)
 {
-
-	t_table table;
-
-	if (argc == 5 || argc == 6)
-	{
-		parse_args(&table, argv);
-		init_table(&table);
-		start_dinner(&table);
-		clean(&table);
-	}
-	else
-		error_exit("Invalid number of arguments. \n" G
-					  "Usage: ./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]" RST);
-	return 0;
+	printf(RED " %s\n" RST, str);
+	exit(EXIT_FAILURE);
 }
