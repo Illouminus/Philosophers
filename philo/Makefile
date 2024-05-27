@@ -5,7 +5,6 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRCS = main.c \
 
-
 OBJS = $(SRCS:.c=.o)
 
 
