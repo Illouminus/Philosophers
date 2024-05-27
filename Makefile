@@ -7,26 +7,21 @@ SRCS = src/main.c \
 
 OBJS = $(SRCS:.c=.o)
 
-LIBFT = ./libft/libft.a
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS)
+$(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
 
-$(LIBFT):
-	make -C ./libft
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	$(RM) $(OBJS)
-	make -C ./libft clean
 
 fclean: clean
 	$(RM) $(NAME)
-	make -C ./libft fclean
 
 re: fclean all
 
