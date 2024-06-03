@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/05/29 21:20:07 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/03 14:46:02 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <stdbool.h>
 #include <sys/time.h>
 #include <limits.h>
+#include <errno.h>
 
 typedef pthread_mutex_t t_mutex;
 typedef struct s_table t_table;
@@ -50,6 +51,17 @@ typedef struct s_philo
 ** Remember to use RST to reset the color after setting it.
 */
 
+typedef enum e_opcode
+{
+	LOCK,
+	UNLOCK,
+	INIT,
+	DESTROY,
+	CREATE,
+	JOIN,
+	DETACH,
+} t_opcode;
+
 #define RST "\033[0m"	 /* Reset to default color */
 #define RED "\033[1;31m" /* Bold Red */
 #define G "\033[1;32m"	 /* Bold Green */
@@ -75,5 +87,6 @@ struct s_table
 };
 
 void error_exit(const char *str);
-
+void parse_args(t_table *table, char **argv);
+void *safe_malloc(size_t size);
 #endif
