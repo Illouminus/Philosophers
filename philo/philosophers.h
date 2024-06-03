@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/05/27 20:36:13 by edouard          ###   ########.fr       */
+/*   Updated: 2024/05/29 21:20:07 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,5 @@ struct s_table
 };
 
 void error_exit(const char *str);
+
 #endif
