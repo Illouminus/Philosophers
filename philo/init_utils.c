@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:30:47 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/03 14:50:19 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/03 15:25:58 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,22 @@ static void handle_mutex_error(int status, t_opcode opcode)
 		error_exit("An error occured\n");
 }
 
+static void handle_thread_error(int status, t_opcode opcode)
+{
+	if (0 == status)
+		return;
+	if (EINVAL == status && (JOIN == opcode || DETACH == opcode))
+		error_exit("The thread is not joinable\n");
+	else if (EAGAIN == status)
+		error_exit("The system lacked the necessary resources to create another thread\n");
+	else if (ESRCH == status)
+		error_exit("No thread could be found corresponding to that specified by the given thread ID\n");
+	else if (EINVAL == status && CREATE == opcode)
+		error_exit("The thread is already initialized\n");
+	else if (EDEADLK == status)
+		error_exit("A deadlock would occur if the thread blocked waiting for the thread to terminate\n");
+}
+
 void safe_mutex_handler(t_mutex *mutex, t_opcode opcode)
 {
 	if (LOCK == opcode)
@@ -52,6 +68,18 @@ void safe_mutex_handler(t_mutex *mutex, t_opcode opcode)
 		handle_mutex_error(pthread_mutex_destroy(mutex), opcode);
 	else if (INIT == opcode)
 		handle_mutex_error(pthread_mutex_init(mutex, NULL), opcode);
+	else
+		error_exit("Invalid opcode\n");
+}
+
+void safe_thread_handler(pthread_t *thread, void *(*start)(void *), void *data, t_opcode opcode)
+{
+	if (CREATE == opcode)
+		handle_thread_error(pthread_create(thread, NULL, start, data), opcode);
+	else if (JOIN == opcode)
+		handle_thread_error(pthread_join(*thread, NULL), opcode);
+	else if (DETACH == opcode)
+		handle_thread_error(pthread_detach(*thread), opcode);
 	else
 		error_exit("Invalid opcode\n");
 }
