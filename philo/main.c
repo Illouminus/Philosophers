@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:06:39 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/03 12:39:38 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/10 15:12:33 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 	if (argc == 5 || argc == 6)
 	{
 		parse_args(&table, argv);
-		init_table(&table);
+		data_init(&table);
 		start_dinner(&table);
 		clean(&table);
 	}

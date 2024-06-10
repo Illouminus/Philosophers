@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/03 15:31:43 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/10 15:09:53 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,5 @@ void parse_args(t_table *table, char **argv);
 void *safe_malloc(size_t size);
 void safe_thread_handler(pthread_t *thread, void *(*start)(void *), void *data, t_opcode opcode);
 void safe_mutex_handler(t_mutex *mutex, t_opcode opcode);
+void data_init(t_table *table);
 #endif
