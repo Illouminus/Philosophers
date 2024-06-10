@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/10 16:57:02 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/10 17:38:52 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,13 @@ typedef enum e_opcode
 	DETACH,
 } t_opcode;
 
+typedef enum e_time_code
+{
+	SECONDS,
+	MILLISECOND,
+	MICROSECOND,
+} t_time_code;
+
 #define RST "\033[0m"	 /* Reset to default color */
 #define RED "\033[1;31m" /* Bold Red */
 #define G "\033[1;32m"	 /* Bold Green */
@@ -92,4 +99,12 @@ void *safe_malloc(size_t size);
 void safe_thread_handler(pthread_t *thread, void *(*start)(void *), void *data, t_opcode opcode);
 void safe_mutex_handler(t_mutex *mutex, t_opcode opcode);
 void data_init(t_table *table);
+
+void wait_for_all_threads(t_table *table);
+
+void set_bool(t_mutex *mutex, bool *dest, bool value);
+bool get_bool(t_mutex *mutex, bool *src);
+void set_long(t_mutex *mutex, long *dest, bool value);
+long get_long(t_mutex *mutex, long *src);
+bool simulation_finished(t_table *table);
 #endif

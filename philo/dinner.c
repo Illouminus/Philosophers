@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 15:19:16 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/10 16:14:59 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/10 17:26:04 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,5 @@ void start_dinner(t_table *table)
 		while (++i < table->nb_philo)
 			safe_thread_handler(&table->philos[i].thread_id, dinner_simulation, &table->philos[i], CREATE);
 	}
+	set_bool(&table->table_mutex, &table->all_threads_ready, true);
 }

@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:22:17 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/10 16:59:42 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/10 17:34:13 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static void philo_init(t_table *table)
 	while (++i < table->nb_philo)
 	{
 		table->philos[i].id = i;
-		table->philos[i].last_meal = get_time();
 		table->philos[i].is_full = false;
 		table->philos[i].nb_meals = 0;
 		table->philos[i].table = table;
