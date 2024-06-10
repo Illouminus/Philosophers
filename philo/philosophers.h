@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/10 17:38:52 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/10 17:41:21 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void safe_mutex_handler(t_mutex *mutex, t_opcode opcode);
 void data_init(t_table *table);
 
 void wait_for_all_threads(t_table *table);
+long gettime(int time_code);
 
 void set_bool(t_mutex *mutex, bool *dest, bool value);
 bool get_bool(t_mutex *mutex, bool *src);

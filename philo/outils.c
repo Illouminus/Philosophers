@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:26:27 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/10 17:39:38 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/10 18:09:25 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,27 @@ long gettime(int time_code)
 		error_exit("Wrong input to gettime:"
 					  "use <MILLISECOND> <MICROSECOND> <SECONDS>");
 	return (1337);
+}
+
+void ft_usleep(long time, t_table *table)
+{
+	long start;
+	long elapsed;
+	long rem;
+
+	start = gettime(MICROSECOND);
+	while (gettime(MICROSECOND) - start < time)
+	{
+		if (simulation_finished(table))
+			break;
+		elapsed = gettime(MICROSECOND) - start;
+		rem = time - elapsed;
+		if (rem > 1e3)
+			usleep(rem / 2);
+		else
+			while (gettime(MICROSECOND) - start < time)
+				;
+	}
 }
 
 void error_exit(const char *str)
