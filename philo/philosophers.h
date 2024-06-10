@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/10 17:41:21 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/10 18:57:00 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_philo
 ** Remember to use RST to reset the color after setting it.
 */
 
+#define DEBUG_MODE 0
 typedef enum e_opcode
 {
 	LOCK,
@@ -68,6 +69,16 @@ typedef enum e_time_code
 	MILLISECOND,
 	MICROSECOND,
 } t_time_code;
+
+typedef enum e_status
+{
+	EATING,
+	SLEEPING,
+	THINKING,
+	TAKE_FIRST_FORK,
+	TAKE_SECOND_FORK,
+	DIED,
+} t_philo_status;
 
 #define RST "\033[0m"	 /* Reset to default color */
 #define RED "\033[1;31m" /* Bold Red */
@@ -89,6 +100,7 @@ struct s_table
 	bool is_dead;
 	bool all_threads_ready;
 	t_mutex table_mutex;
+	t_mutex write_mutex;
 	t_philo *philos;
 	t_fork *forks;
 };
@@ -102,6 +114,7 @@ void data_init(t_table *table);
 
 void wait_for_all_threads(t_table *table);
 long gettime(int time_code);
+void write_status(t_philo_status status, t_philo *philo, bool debug);
 
 void set_bool(t_mutex *mutex, bool *dest, bool value);
 bool get_bool(t_mutex *mutex, bool *src);
