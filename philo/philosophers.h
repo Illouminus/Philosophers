@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/10 15:09:53 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/10 16:57:02 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ struct s_table
 	long nb_limit_meals;
 	long start_time;
 	bool is_dead;
+	bool all_threads_ready;
+	t_mutex table_mutex;
 	t_philo *philos;
 	t_fork *forks;
-	t_mutex print_mutex;
-	t_mutex death_mutex;
 };
 
 void error_exit(const char *str);

@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:22:17 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/10 15:09:27 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/10 16:59:42 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ void data_init(t_table *table)
 
 	i = -1;
 	table->is_dead = false;
+	table->all_threads_ready = false;
 	table->philos = safe_malloc(sizeof(t_philo) * table->nb_philo);
 	table->forks = safe_malloc(sizeof(t_fork) * table->nb_philo);
+	safe_mutex_handler(&table->table_mutex, INIT);
 	while (++i < table->nb_philo)
 	{
 		safe_mutex_handler(&table->forks[i].fork, INIT);
