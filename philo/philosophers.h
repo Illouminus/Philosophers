@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/10 18:58:46 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/11 16:49:03 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,13 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	int id;
-	int nb_meals;
+	long nb_meals;
 	bool is_full;
 	long last_meal;
 	t_fork *left_fork;
 	t_fork *right_fork;
 	pthread_t thread_id;
+	t_mutex philo_mutex;
 	t_table *table;
 } t_philo;
 
@@ -122,4 +123,7 @@ bool get_bool(t_mutex *mutex, bool *src);
 void set_long(t_mutex *mutex, long *dest, bool value);
 long get_long(t_mutex *mutex, long *src);
 bool simulation_finished(t_table *table);
+
+void start_dinner(t_table *table);
+
 #endif

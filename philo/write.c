@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 18:18:15 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/10 18:29:25 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/11 20:29:43 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ void write_status(t_philo_status status, t_philo *philo, bool debug)
 	long elapsed;
 
 	elapsed = gettime(MILLISECOND) - philo->table->start_time;
-	if (get_bool(&philo, &philo->is_full))
+	if (get_bool(&philo->philo_mutex, &philo->is_full))
 		return;
-	safe_mutex_handle(&philo->table->write_mutex, LOCK);
+	safe_mutex_handler(&philo->table->write_mutex, LOCK);
 	if (debug)
 		write_status_debug(status, philo, elapsed);
 	else
@@ -60,5 +60,5 @@ void write_status(t_philo_status status, t_philo *philo, bool debug)
 		else if (DIED == status)
 			printf(RED "%-6ld %d died\n" RST, elapsed, philo->id);
 	}
-	safe_mutex_handle(&philo->table->write_mutex, UNLOCK);
+	safe_mutex_handler(&philo->table->write_mutex, UNLOCK);
 }

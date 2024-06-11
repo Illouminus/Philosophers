@@ -3,7 +3,10 @@ CC = cc -g
 RM = rm -f
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS = main.c \
+SRCS = main.c init_utils.c write.c synchro_utils.c\
+		 parse.c outils.c\
+		 init.c  dinner.c\
+		 getters_setters.c
 
 OBJS = $(SRCS:.c=.o)
 

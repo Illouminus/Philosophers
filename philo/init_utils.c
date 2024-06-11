@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:30:47 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/03 15:31:49 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/11 18:58:59 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,20 @@ static void handle_mutex_error(int status, t_opcode opcode)
 {
 	if (0 == status)
 		return;
-	if (EINVAL == status && (LOCK == opcode || UNLOCK == opcode || DESTROY == opcode))
-		error_exit("The mutex is not initialized\n");
+	if (EINVAL == status && (LOCK == opcode || UNLOCK == opcode))
+		error_exit("The value specified by mutex is invalid");
 	else if (EINVAL == status && INIT == opcode)
-		error_exit("The mutex is already initialized\n");
+		error_exit("The value specified by attr is invalid.");
 	else if (EDEADLK == status)
-		error_exit("A deadlock would occurend if the thread blocked waiting for mutex\n");
+		error_exit("A deadlock would occur if the thread "
+					  "blocked waiting for mutex.");
 	else if (EPERM == status)
-		error_exit("The current thread does not own the mutex\n");
+		error_exit("The current thread does not hold a lock on mutex.");
 	else if (ENOMEM == status)
-		error_exit("Insufficient memory exists to initialize the mutex\n");
+		error_exit("The process cannot allocate enough memory"
+					  " to create another mutex.");
 	else if (EBUSY == status)
-		error_exit("The mutex is already locked\n");
-	else
-		error_exit("An error occured\n");
+		error_exit("Mutex is locked");
 }
 
 static void handle_thread_error(int status, t_opcode opcode)
@@ -64,12 +64,13 @@ void safe_mutex_handler(t_mutex *mutex, t_opcode opcode)
 		handle_mutex_error(pthread_mutex_lock(mutex), opcode);
 	else if (UNLOCK == opcode)
 		handle_mutex_error(pthread_mutex_unlock(mutex), opcode);
-	else if (DESTROY == opcode)
-		handle_mutex_error(pthread_mutex_destroy(mutex), opcode);
 	else if (INIT == opcode)
 		handle_mutex_error(pthread_mutex_init(mutex, NULL), opcode);
+	else if (DESTROY == opcode)
+		handle_mutex_error(pthread_mutex_destroy(mutex), opcode);
 	else
-		error_exit("Invalid opcode\n");
+		error_exit("Wrong opcode for mutex_handle:"
+					  "use <LOCK> <UNLOCK> <INIT> <DESTROY>");
 }
 
 void safe_thread_handler(pthread_t *thread, void *(*start)(void *), void *data, t_opcode opcode)
