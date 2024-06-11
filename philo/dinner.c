@@ -6,11 +6,19 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 15:19:16 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/10 17:55:57 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/10 19:09:31 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philosophers.h"
+
+static void philo_eat(t_philo *philo)
+{
+	safe_mutex_handler(&philo->left_fork->fork, LOCK);
+	write_status(philo, TAKE_FIRST_FORK, DEBUG_MODE);
+	safe_mutex_handler(&philo->right_fork->fork, LOCK);
+	write_status(philo, TAKE_SECOND_FORK, DEBUG_MODE);
+}
 
 void *dinner_simulation(void *data)
 {
@@ -24,7 +32,8 @@ void *dinner_simulation(void *data)
 		if (get_bool(&philo->table->table_mutex, &philo->table->is_dead))
 			break;
 		philo_eat(philo);
-		philo_sleep(philo);
+		write_status(philo, SLEEPING, DEBUG_MODE);
+		ft_usleep(philo->table->time_to_sleep, philo->table);
 		philo_think(philo);
 	}
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/10 18:57:00 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/10 18:58:46 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void data_init(t_table *table);
 void wait_for_all_threads(t_table *table);
 long gettime(int time_code);
 void write_status(t_philo_status status, t_philo *philo, bool debug);
+void ft_usleep(long time, t_table *table);
 
 void set_bool(t_mutex *mutex, bool *dest, bool value);
 bool get_bool(t_mutex *mutex, bool *src);
