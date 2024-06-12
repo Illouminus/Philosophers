@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 15:19:16 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/11 20:30:40 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/12 16:46:39 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,8 @@ static void thinking(t_philo *philo)
 static void philo_eat(t_philo *philo)
 {
 	safe_mutex_handler(&philo->left_fork->fork, LOCK);
-	printf("philo %d has taken the left fork\n", philo->id);
 	write_status(TAKE_FIRST_FORK, philo, DEBUG_MODE);
 	safe_mutex_handler(&philo->right_fork->fork, LOCK);
-	printf("philo %d has taken the right fork\n", philo->id);
 	write_status(TAKE_SECOND_FORK, philo, DEBUG_MODE);
 
 	set_long(&philo->philo_mutex, &philo->last_meal, gettime(MILLISECOND));
@@ -41,8 +39,9 @@ void *dinner_simulation(void *data)
 	t_philo *philo;
 
 	philo = (t_philo *)data;
-	wait_for_all_threads(philo->table);
 
+	wait_for_all_threads(philo->table);
+	increase_long(&philo->table->table_mutex, &philo->table->threads_running_number);
 	while (!simulation_finished(philo->table))
 	{
 		if (get_bool(&philo->table->table_mutex, &philo->table->is_dead))
@@ -69,6 +68,8 @@ void start_dinner(t_table *table)
 		while (++i < table->nb_philo)
 			safe_thread_handler(&table->philos[i].thread_id, dinner_simulation, &table->philos[i], CREATE);
 	}
+	safe_thread_handler(&table->monitor, monitor_simulation, table, CREATE);
+
 	table->start_time = gettime(MILLISECOND);
 	set_bool(&table->table_mutex, &table->all_threads_ready, true);
 

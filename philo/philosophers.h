@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/11 16:49:03 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/12 16:48:06 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_philo
 ** Remember to use RST to reset the color after setting it.
 */
 
-#define DEBUG_MODE 0
+#define DEBUG_MODE 1
 typedef enum e_opcode
 {
 	LOCK,
@@ -100,6 +100,8 @@ struct s_table
 	long start_time;
 	bool is_dead;
 	bool all_threads_ready;
+	long threads_running_number;
+	pthread_t monitor;
 	t_mutex table_mutex;
 	t_mutex write_mutex;
 	t_philo *philos;
@@ -125,5 +127,8 @@ long get_long(t_mutex *mutex, long *src);
 bool simulation_finished(t_table *table);
 
 void start_dinner(t_table *table);
+void increase_long(t_mutex *mutex, long *value);
+bool all_threads_running(t_table *table);
+void *monitor_simulation(void *data);
 
 #endif
