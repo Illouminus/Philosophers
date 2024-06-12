@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:29:17 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/12 16:47:42 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/12 16:50:25 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,16 @@ void wait_for_all_threads(t_table *table)
 		;
 }
 
-bool all_threads_running(t_table *table)
+bool all_threads_running(t_mutex *mutex, long *threads, long philo_nbr)
 {
+	bool ret;
+
+	ret = false;
+	safe_mutex_handler(mutex, LOCK);
+	if (*threads == philo_nbr)
+		ret = true;
+	safe_mutex_handler(mutex, UNLOCK);
+	return (ret);
 }
 
 void increase_long(t_mutex *mutex, long *value)

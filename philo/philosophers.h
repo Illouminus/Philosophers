@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/12 16:48:06 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/12 16:51:58 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ bool simulation_finished(t_table *table);
 
 void start_dinner(t_table *table);
 void increase_long(t_mutex *mutex, long *value);
-bool all_threads_running(t_table *table);
+bool all_threads_running(t_mutex *mutex, long *threads, long philo_nbr);
 void *monitor_simulation(void *data);
 
 #endif
