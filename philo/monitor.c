@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:41:07 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/12 16:59:04 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/12 18:36:34 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ void *monitor_simulation(void *data)
 {
 	int i;
 	t_table *table;
-	table = (t_table *)data;
-	while (!all_threads_running(&table->table_mutex, table->threads_running_number, table->nb_philo))
-		usleep(1000);
 
+	table = (t_table *)data;
+	while (!all_threads_running(&table->table_mutex,
+										 &table->threads_running_number, table->nb_philo))
+		;
 	while (!simulation_finished(table))
 	{
 		i = -1;

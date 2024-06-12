@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror
 SRCS = main.c init_utils.c write.c synchro_utils.c\
 		 parse.c outils.c\
 		 init.c  dinner.c\
-		 getters_setters.c
+		 getters_setters.c monitor.c
 
 OBJS = $(SRCS:.c=.o)
 

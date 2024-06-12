@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:26:27 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/11 16:49:47 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/12 17:48:02 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void ft_usleep(long time, t_table *table)
 			break;
 		elapsed = gettime(MICROSECOND) - start;
 		rem = time - elapsed;
-		if (rem > 1e3)
+		if (rem > 1e4)
 			usleep(rem / 2);
 		else
 			while (gettime(MICROSECOND) - start < time)

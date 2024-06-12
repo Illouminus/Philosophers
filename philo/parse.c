@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:46:44 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/03 14:14:57 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/12 18:25:22 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,17 @@ static long ft_atol(const char *str)
 void parse_args(t_table *table, char **argv)
 {
 	table->nb_philo = ft_atol(argv[1]);
+	if (table->nb_philo > PHILO_MAX)
+	{
+		printf(RED "Max philos are %d\n" G "make fclean and re-make with PHILO_MAX=nbr to change it\n" RST,
+				 PHILO_MAX);
+		exit(EXIT_FAILURE);
+	}
 	table->time_to_die = ft_atol(argv[2]) * 1e3;
 	table->time_to_eat = ft_atol(argv[3]) * 1e3;
 	table->time_to_sleep = ft_atol(argv[4]) * 1e3;
-	if (table->time_to_eat < 6e4 || table->time_to_sleep < 6e4 || table->time_to_die < 6e4)
-		error_exit("The time is too short, use more than 60ms\n");
+	if (table->time_to_die < 6e4 || table->time_to_sleep < 6e4 || table->time_to_eat < 6e4)
+		error_exit("Use timestamps major than 60ms");
 	if (argv[5])
 		table->nb_limit_meals = ft_atol(argv[5]);
 	else

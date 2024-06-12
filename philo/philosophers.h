@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/12 16:51:58 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/12 18:30:12 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,10 @@ typedef struct s_philo
 **     printf(B "This is blue text." RST);
 ** Remember to use RST to reset the color after setting it.
 */
+
+#ifndef PHILO_MAX
+#define PHILO_MAX 200
+#endif
 
 #define DEBUG_MODE 1
 typedef enum e_opcode
@@ -122,7 +126,7 @@ void ft_usleep(long time, t_table *table);
 
 void set_bool(t_mutex *mutex, bool *dest, bool value);
 bool get_bool(t_mutex *mutex, bool *src);
-void set_long(t_mutex *mutex, long *dest, bool value);
+void set_long(t_mutex *mutex, long *dest, long value);
 long get_long(t_mutex *mutex, long *src);
 bool simulation_finished(t_table *table);
 

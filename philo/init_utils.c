@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:30:47 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/11 18:58:59 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/12 17:53:36 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,16 @@ void safe_mutex_handler(t_mutex *mutex, t_opcode opcode)
 		error_exit("Wrong opcode for mutex_handle:"
 					  "use <LOCK> <UNLOCK> <INIT> <DESTROY>");
 }
-
-void safe_thread_handler(pthread_t *thread, void *(*start)(void *), void *data, t_opcode opcode)
+void safe_thread_handler(pthread_t *thread, void *(*foo)(void *),
+								 void *data, t_opcode opcode)
 {
 	if (CREATE == opcode)
-		handle_thread_error(pthread_create(thread, NULL, start, data), opcode);
+		handle_thread_error(pthread_create(thread, NULL, foo, data), opcode);
 	else if (JOIN == opcode)
 		handle_thread_error(pthread_join(*thread, NULL), opcode);
 	else if (DETACH == opcode)
 		handle_thread_error(pthread_detach(*thread), opcode);
 	else
-		error_exit("Invalid opcode\n");
+		error_exit("Wrong opcode for thread_handle:"
+					  " use <CREATE> <JOIN> <DETACH>");
 }

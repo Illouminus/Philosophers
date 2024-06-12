@@ -6,11 +6,25 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 15:19:16 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/12 17:12:04 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/12 18:37:53 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philosophers.h"
+
+void *lone_philo(void *data)
+{
+	t_philo *philo;
+
+	philo = (t_philo *)data;
+	wait_for_all_threads(philo->table);
+	set_long(&philo->philo_mutex, &philo->last_meal, gettime(MILLISECOND));
+	increase_long(&philo->table->table_mutex, &philo->table->threads_running_number);
+	write_status(TAKE_FIRST_FORK, philo, DEBUG_MODE);
+	while (!simulation_finished(philo->table))
+		usleep(200);
+	return (NULL);
+}
 
 static void thinking(t_philo *philo)
 {
@@ -23,7 +37,6 @@ static void philo_eat(t_philo *philo)
 	write_status(TAKE_FIRST_FORK, philo, DEBUG_MODE);
 	safe_mutex_handler(&philo->right_fork->fork, LOCK);
 	write_status(TAKE_SECOND_FORK, philo, DEBUG_MODE);
-
 	set_long(&philo->philo_mutex, &philo->last_meal, gettime(MILLISECOND));
 	philo->nb_meals++;
 	write_status(EATING, philo, DEBUG_MODE);
@@ -65,7 +78,7 @@ void start_dinner(t_table *table)
 	if (!table->nb_limit_meals)
 		return;
 	else if (table->nb_philo == 1)
-		; // TODO
+		safe_thread_handler(&table->philos[0].thread_id, lone_philo, &table->philos[0], CREATE);
 	else
 	{
 		while (++i < table->nb_philo)
@@ -79,4 +92,6 @@ void start_dinner(t_table *table)
 	i = -1;
 	while (++i < table->nb_philo)
 		safe_thread_handler(&table->philos[i].thread_id, NULL, NULL, JOIN);
+	set_bool(&table->table_mutex, &table->is_dead, true);
+	safe_thread_handler(&table->monitor, NULL, NULL, JOIN);
 }

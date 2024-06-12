@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:10:08 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/10 17:25:19 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/12 18:31:05 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ bool get_bool(t_mutex *mutex, bool *src)
 	return (value);
 }
 
-void set_long(t_mutex *mutex, long *dest, bool value)
+void set_long(t_mutex *mutex, long *dest, long value)
 {
 	safe_mutex_handler(mutex, LOCK);
 	*dest = value;
@@ -38,7 +38,7 @@ void set_long(t_mutex *mutex, long *dest, bool value)
 
 long get_long(t_mutex *mutex, long *src)
 {
-	bool value;
+	long value;
 
 	safe_mutex_handler(mutex, LOCK);
 	value = *src;
