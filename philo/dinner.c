@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 15:19:16 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/12 18:37:53 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/13 06:44:37 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,22 @@ void *lone_philo(void *data)
 		usleep(200);
 	return (NULL);
 }
-
-static void thinking(t_philo *philo)
+void thinking(t_philo *philo, bool pre_sim)
 {
-	write_status(THINKING, philo, DEBUG_MODE);
+	long t_eat;
+	long t_sleep;
+	long t_think;
+
+	if (!pre_sim)
+		write_status(THINKING, philo, DEBUG_MODE);
+	if (philo->table->nb_philo % 2 == 0)
+		return;
+	t_eat = philo->table->time_to_eat;
+	t_sleep = philo->table->time_to_sleep;
+	t_think = t_eat * 2 - t_sleep;
+	if (t_think < 0)
+		t_think = 0;
+	ft_usleep(t_think * 0.2, philo->table);
 }
 
 static void philo_eat(t_philo *philo)
@@ -58,6 +70,8 @@ void *dinner_simulation(void *data)
 	set_long(&philo->philo_mutex, &philo->last_meal, gettime(MILLISECOND));
 
 	increase_long(&philo->table->table_mutex, &philo->table->threads_running_number);
+
+	de_sync_philos(philo);
 	while (!simulation_finished(philo->table))
 	{
 		if (get_bool(&philo->table->table_mutex, &philo->table->is_dead))
@@ -65,7 +79,7 @@ void *dinner_simulation(void *data)
 		philo_eat(philo);
 		write_status(SLEEPING, philo, DEBUG_MODE);
 		ft_usleep(philo->table->time_to_sleep, philo->table);
-		thinking(philo);
+		thinking(philo, false);
 	}
 	return (NULL);
 }

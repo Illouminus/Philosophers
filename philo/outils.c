@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:26:27 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/12 17:48:02 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/13 06:49:36 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,29 @@ void ft_usleep(long time, t_table *table)
 			break;
 		elapsed = gettime(MICROSECOND) - start;
 		rem = time - elapsed;
-		if (rem > 1e4)
+		if (rem > 1e3)
 			usleep(rem / 2);
 		else
 			while (gettime(MICROSECOND) - start < time)
 				;
 	}
+}
+
+void clean_exit(t_table *table)
+{
+	t_philo *philo;
+	int i;
+
+	i = -1;
+	while (++i < table->nb_philo)
+	{
+		philo = table->philos + i;
+		safe_mutex_handler(&philo->philo_mutex, DESTROY);
+	}
+	safe_mutex_handler(&table->table_mutex, DESTROY);
+	safe_mutex_handler(&table->write_mutex, DESTROY);
+	free(table->philos);
+	free(table->forks);
 }
 
 void error_exit(const char *str)

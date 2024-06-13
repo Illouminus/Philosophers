@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:06:39 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/11 16:40:19 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/13 06:12:04 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main(int argc, char **argv)
 		parse_args(&table, argv);
 		data_init(&table);
 		start_dinner(&table);
-		// clean(&table);
+		clean_exit(&table);
 	}
 	else
 		error_exit("Invalid number of arguments. \n" G

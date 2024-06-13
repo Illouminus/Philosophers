@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:29:17 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/12 18:06:48 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/13 06:44:03 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,18 @@ void increase_long(t_mutex *mutex, long *value)
 	safe_mutex_handler(mutex, LOCK);
 	(*value)++;
 	safe_mutex_handler(mutex, UNLOCK);
+}
+
+void de_sync_philos(t_philo *philo)
+{
+	if (philo->table->nb_philo % 2 == 0)
+	{
+		if (philo->id % 2 == 0)
+			ft_usleep(3e4, philo->table);
+	}
+	else
+	{
+		if (philo->id % 2 == 0)
+			thinking(philo, true);
+	}
 }
