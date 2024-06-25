@@ -3,28 +3,29 @@ CC = cc -g
 RM = rm -f
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS = main.c init_utils.c write.c synchro_utils.c\
-		 parse.c outils.c\
-		 init.c  dinner.c\
-		 getters_setters.c monitor.c
-
-OBJS = $(SRCS:.c=.o)
-
+SRCS = $(wildcard *.c)
+OBJ_DIR = obj
+OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
+	@echo "Building project $(NAME)..."
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
 
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(OBJ_DIR)
+	@echo "Compiling $<..."
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS)
+	@$(RM) $(OBJS)
+	@$(RM) -r $(OBJ_DIR)
+	@echo "Object files cleaned."
 
 fclean: clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
+	@echo "Full cleanup done."
 
 re: fclean all
 

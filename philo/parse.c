@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:46:44 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/12 18:25:22 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/25 11:47:50 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,12 @@ static long ft_atol(const char *str)
 	return (nb);
 }
 
+/*Parsing function and complete data */
+
 void parse_args(t_table *table, char **argv)
 {
 	table->nb_philo = ft_atol(argv[1]);
+
 	if (table->nb_philo > PHILO_MAX)
 	{
 		printf(RED "Max philos are %d\n" G "make fclean and re-make with PHILO_MAX=nbr to change it\n" RST,
