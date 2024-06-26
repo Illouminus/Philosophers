@@ -11,7 +11,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@echo "Building project $(NAME)..."
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) 
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(OBJ_DIR)

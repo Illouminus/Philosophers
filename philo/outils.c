@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:26:27 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/13 06:49:36 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/26 11:50:30 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,12 @@ void clean_exit(t_table *table)
 	{
 		philo = table->philos + i;
 		safe_mutex_handler(&philo->philo_mutex, DESTROY);
+	}
+
+	i = -1;
+	while (++i < table->nb_philo)
+	{
+		safe_mutex_handler(&table->forks[i].fork, DESTROY);
 	}
 	safe_mutex_handler(&table->table_mutex, DESTROY);
 	safe_mutex_handler(&table->write_mutex, DESTROY);

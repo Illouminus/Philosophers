@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 15:19:16 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/13 07:12:29 by edouard          ###   ########.fr       */
+/*   Updated: 2024/06/26 11:45:45 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void *dinner_simulation(void *data)
 	increase_long(&philo->table->table_mutex, &philo->table->threads_running_number);
 
 	de_sync_philos(philo);
+
 	while (!simulation_finished(philo->table))
 	{
 		if (get_bool(&philo->philo_mutex, &philo->is_full))
@@ -98,7 +99,9 @@ void start_dinner(t_table *table)
 		while (++i < table->nb_philo)
 			safe_thread_handler(&table->philos[i].thread_id, dinner_simulation, &table->philos[i], CREATE);
 	}
+
 	safe_thread_handler(&table->monitor, monitor_simulation, table, CREATE);
+
 	table->start_time = gettime(MILLISECOND);
 	set_bool(&table->table_mutex, &table->all_threads_ready, true);
 	i = -1;
