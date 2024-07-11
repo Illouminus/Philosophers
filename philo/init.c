@@ -3,24 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:22:17 by edouard           #+#    #+#             */
-/*   Updated: 2024/06/26 11:02:13 by edouard          ###   ########.fr       */
+/*   Updated: 2024/07/11 14:09:40 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philosophers.h"
 
-static void assign_forks(t_philo *philo, t_fork *forks, int philo_position)
+static void	assign_forks(t_philo *philo, t_fork *forks, int philo_position)
 {
-	int philo_nmbr;
+	int	philo_nmbr;
 
 	philo_nmbr = philo->table->nb_philo;
-
 	philo->left_fork = &forks[(philo_position + 1) % philo_nmbr];
 	philo->right_fork = &forks[philo_position];
-
 	if (philo->id % 2 == 0)
 	{
 		philo->left_fork = &forks[philo_position];
@@ -28,10 +26,10 @@ static void assign_forks(t_philo *philo, t_fork *forks, int philo_position)
 	}
 }
 
-static void philo_init(t_table *table)
+static void	philo_init(t_table *table)
 {
-	int i;
-	t_philo *philo;
+	int		i;
+	t_philo	*philo;
 
 	i = -1;
 	while (++i < table->nb_philo)
@@ -46,9 +44,9 @@ static void philo_init(t_table *table)
 	}
 }
 
-void data_init(t_table *table)
+void	data_init(t_table *table)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	table->is_dead = false;
@@ -56,10 +54,8 @@ void data_init(t_table *table)
 	table->threads_running_number = 0;
 	table->philos = safe_malloc(table->nb_philo * sizeof(t_philo));
 	table->forks = safe_malloc(table->nb_philo * sizeof(t_fork));
-
 	safe_mutex_handler(&table->write_mutex, INIT);
 	safe_mutex_handler(&table->table_mutex, INIT);
-
 	while (++i < table->nb_philo)
 	{
 		safe_mutex_handler(&table->forks[i].fork, INIT);
