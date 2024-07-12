@@ -6,7 +6,7 @@
 /*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:26:27 by edouard           #+#    #+#             */
-/*   Updated: 2024/07/11 14:11:28 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/07/12 16:10:38 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,7 @@ void	clean_exit(t_table *table)
 		philo = table->philos + i;
 		safe_mutex_handler(&philo->philo_mutex, DESTROY);
 	}
-	i = -1;
-	while (++i < table->nb_philo)
-	{
-		safe_mutex_handler(&table->forks[i].fork, DESTROY);
-	}
+
 	safe_mutex_handler(&table->table_mutex, DESTROY);
 	safe_mutex_handler(&table->write_mutex, DESTROY);
 	free(table->philos);

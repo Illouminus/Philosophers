@@ -6,7 +6,7 @@
 /*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:30:47 by edouard           #+#    #+#             */
-/*   Updated: 2024/07/11 14:07:08 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/07/12 17:26:50 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,27 +56,42 @@ static void	handle_thread_error(int status, t_opcode opcode)
 		error_exit("A deadlock would occur\n");
 }
 
-void	safe_mutex_handler(t_mutex *mutex, t_opcode opcode)
+void safe_mutex_handler(t_mutex *mutex, t_opcode opcode)
 {
 	if (LOCK == opcode)
+	{
+		usleep(10);
 		handle_mutex_error(pthread_mutex_lock(mutex), opcode);
+	}
 	else if (UNLOCK == opcode)
+	{
 		handle_mutex_error(pthread_mutex_unlock(mutex), opcode);
+	}
 	else if (INIT == opcode)
+	{
+		usleep(10);
 		handle_mutex_error(pthread_mutex_init(mutex, NULL), opcode);
+	}
 	else if (DESTROY == opcode)
 		handle_mutex_error(pthread_mutex_destroy(mutex), opcode);
 	else
 		error_exit("Wrong opcode for mutex_handle:");
 }
 
+
 void	safe_thread_handler(pthread_t *thread, void *(*foo)(void *), void *data,
 		t_opcode opcode)
 {
 	if (CREATE == opcode)
+	{
+		usleep(10);
 		handle_thread_error(pthread_create(thread, NULL, foo, data), opcode);
+	}
 	else if (JOIN == opcode)
+	{
+		usleep(10);
 		handle_thread_error(pthread_join(*thread, NULL), opcode);
+	}
 	else if (DETACH == opcode)
 		handle_thread_error(pthread_detach(*thread), opcode);
 	else

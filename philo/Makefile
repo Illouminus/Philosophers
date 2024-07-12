@@ -3,7 +3,17 @@ CC = cc -g
 RM = rm -f
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS = $(wildcard *.c)
+SRCS = main.c \
+       dinner.c \
+       getters_setters.c \
+       init_utils.c \
+       init.c \
+       monitor.c \
+       outils.c \
+       parse.c \
+       synchro_utils.c \
+       write.c
+
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 

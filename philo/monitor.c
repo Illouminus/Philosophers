@@ -6,7 +6,7 @@
 /*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:41:07 by edouard           #+#    #+#             */
-/*   Updated: 2024/07/11 14:11:01 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/07/12 17:04:35 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,12 @@ static bool	philo_died(t_philo *philo)
 
 void	*monitor_simulation(void *data)
 {
-	int		i;
 	t_table	*table;
+	int		i;
 
 	table = (t_table *)data;
-	while (!all_threads_running(&table->table_mutex,
-			&table->threads_running_number, table->nb_philo))
-		;
+	while (!all_threads_running(&table->table_mutex, &table->threads_running_number, table->nb_philo))
+		usleep(100);
 	while (!simulation_finished(table))
 	{
 		i = -1;
@@ -47,6 +46,9 @@ void	*monitor_simulation(void *data)
 				write_status(DIED, table->philos + i, DEBUG_MODE);
 			}
 		}
+		usleep(100);
 	}
+	// Убедитесь, что все блокировки освобождены перед завершением
 	return (NULL);
 }
+

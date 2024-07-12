@@ -6,7 +6,7 @@
 /*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 15:19:16 by edouard           #+#    #+#             */
-/*   Updated: 2024/07/11 14:05:37 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/07/12 17:35:02 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,22 @@ static void	philo_eat(t_philo *philo)
 	set_long(&philo->philo_mutex, &philo->last_meal, gettime(MILLISECOND));
 	philo->nb_meals++;
 	write_status(EATING, philo, DEBUG_MODE);
+
+	safe_mutex_handler(&philo->left_fork->fork, UNLOCK);
+	safe_mutex_handler(&philo->right_fork->fork, UNLOCK);
+	
 	ft_usleep(philo->table->time_to_eat, philo->table);
+	safe_mutex_handler(&philo->left_fork->fork, LOCK);
+	safe_mutex_handler(&philo->right_fork->fork, LOCK);
+
 	if (philo->table->nb_limit_meals
 		&& philo->nb_meals == philo->table->nb_limit_meals)
 		set_bool(&philo->philo_mutex, &philo->is_full, true);
+	
 	safe_mutex_handler(&philo->left_fork->fork, UNLOCK);
 	safe_mutex_handler(&philo->right_fork->fork, UNLOCK);
 }
+
 
 void	*dinner_simulation(void *data)
 {
