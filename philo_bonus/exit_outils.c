@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   exit_outils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 10:06:39 by edouard           #+#    #+#             */
-/*   Updated: 2024/07/14 09:53:53 by edouard          ###   ########.fr       */
+/*   Created: 2024/07/14 10:26:50 by edouard           #+#    #+#             */
+/*   Updated: 2024/07/14 21:13:32 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./philosophers.h"
+#include "./philo_bonus.h"
 
-int main(int argc, char **argv)
+void clean_exit(t_table *table, t_philo *philo)
 {
-	t_table table;
+	int i;
 
-	if (argc == 5 || argc == 6)
-	{
-		parse_args(&table, argv);
-		data_init(&table);
-		start_dinner(&table);
-		clean_exit(&table);
-	}
-	else
-		error_exit("Invalid number of arguments. \n");
-	return (0);
+	i = 0;
+	while (i < table->philo_numbers)
+		kill(philo[i++].pid, SIGKILL);
+	sem_close(table->death);
+	sem_close(table->message);
+	sem_close(table->stop);
+	sem_close(table->forks);
+	free(philo);
+}
+
+void parsing_exit(const char *message)
+{
+	if (message)
+		perror(message);
+	exit(EXIT_FAILURE);
 }

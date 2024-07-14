@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   outils.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:26:27 by edouard           #+#    #+#             */
-/*   Updated: 2024/07/12 16:10:38 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/07/14 16:33:19 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philosophers.h"
 
-long	gettime(int time_code)
+long gettime(int time_code)
 {
-	struct timeval	tv;
+	struct timeval tv;
 
 	if (gettimeofday(&tv, NULL))
 		error_exit("Gettimeofday failed");
@@ -29,17 +29,17 @@ long	gettime(int time_code)
 	return (1337);
 }
 
-void	ft_usleep(long time, t_table *table)
+void ft_usleep(long time, t_table *table)
 {
-	long	start;
-	long	elapsed;
-	long	rem;
+	long start;
+	long elapsed;
+	long rem;
 
 	start = gettime(MICROSECOND);
 	while (gettime(MICROSECOND) - start < time)
 	{
 		if (simulation_finished(table))
-			break ;
+			break;
 		elapsed = gettime(MICROSECOND) - start;
 		rem = time - elapsed;
 		if (rem > 1e3)
@@ -50,10 +50,10 @@ void	ft_usleep(long time, t_table *table)
 	}
 }
 
-void	clean_exit(t_table *table)
+void clean_exit(t_table *table)
 {
-	t_philo	*philo;
-	int		i;
+	t_philo *philo;
+	int i;
 
 	i = -1;
 	while (++i < table->nb_philo)
@@ -68,7 +68,7 @@ void	clean_exit(t_table *table)
 	free(table->forks);
 }
 
-void	error_exit(const char *str)
+void error_exit(const char *str)
 {
 	printf(RED " %s\n" RST, str);
 	exit(EXIT_FAILURE);

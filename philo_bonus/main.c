@@ -5,25 +5,31 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 10:06:39 by edouard           #+#    #+#             */
-/*   Updated: 2024/07/14 09:53:53 by edouard          ###   ########.fr       */
+/*   Created: 2024/07/14 09:51:19 by edouard           #+#    #+#             */
+/*   Updated: 2024/07/14 22:21:47 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./philosophers.h"
+#include "./philo_bonus.h"
 
-int main(int argc, char **argv)
+int main(int ac, char **av)
 {
 	t_table table;
+	t_philo *philo;
 
-	if (argc == 5 || argc == 6)
+	if (ac == 5 || ac == 6)
 	{
-		parse_args(&table, argv);
-		data_init(&table);
-		start_dinner(&table);
-		clean_exit(&table);
+		if (ft_parsing(av, &table))
+			return (1);
+		philo = philo_init(&table);
+		table.start = gettime();
+		create_semaphores(&table);
+		sem_wait(table.stop);
+		create_process(&table, philo);
+		sem_wait(table.stop);
+		clean_exit(&table, philo);
 	}
 	else
-		error_exit("Invalid number of arguments. \n");
+		printf("Error: Too many arguments\n");
 	return (0);
 }
