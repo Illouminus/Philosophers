@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/22 11:59:50 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/22 12:11:15 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,8 @@ const char *check_sign(const char *str, int *error);
 const char *skip_spaces(const char *str);
 const char *check_digits(const char *str, int *error);
 const char *valid_input(const char *str, int *error);
+
+/********************UTILS********************************/
+void ft_usleep(long ms);
 
 #endif

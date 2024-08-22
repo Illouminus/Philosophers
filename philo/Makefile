@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror
 SRCS = main.c \
        parse.c \
 		 parse_outils.c \
-
+		 outils.c \
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
