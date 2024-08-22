@@ -1,18 +1,11 @@
 NAME = philo
-CC = cc -g
+CC = cc -g -fsanitize=thread -g
 RM = rm -f
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror 
 
 SRCS = main.c \
-       dinner.c \
-       getters_setters.c \
-       init_utils.c \
-       init.c \
-       monitor.c \
-       outils.c \
        parse.c \
-       synchro_utils.c \
-       write.c
+		 parse_outils.c \
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))

@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:06:39 by edouard           #+#    #+#             */
-/*   Updated: 2024/07/14 09:53:53 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/22 12:00:35 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,19 @@ int main(int argc, char **argv)
 
 	if (argc == 5 || argc == 6)
 	{
-		parse_args(&table, argv);
-		data_init(&table);
-		start_dinner(&table);
-		clean_exit(&table);
+		if (parse_args(&table, argv) != 0)
+		{
+			printf("Error parsing arguments.\n");
+			return 1;
+		}
+		// data_init(&table);
+		// start_dinner(&table);
+		// clean_exit(&table);
 	}
 	else
-		error_exit("Invalid number of arguments. \n");
+	{
+		printf("Invalid numbers of arguments \n");
+		return 1;
+	}
 	return (0);
 }
