@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/22 12:11:15 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/23 16:12:18 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ struct s_table
 	long nb_limit_meals;
 	long start_time;
 	bool is_dead;
-	// long threads_running_number;
+	t_mutex dead_mutex;
 	t_mutex write_mutex;
 	t_philo *philos;
 	t_fork *forks;
@@ -83,5 +83,9 @@ const char *valid_input(const char *str, int *error);
 
 /********************UTILS********************************/
 void ft_usleep(long ms);
+int error_handler(const char *message);
+
+/********************INIT********************************/
+int data_init(t_table *table);
 
 #endif
