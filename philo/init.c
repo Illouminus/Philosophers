@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:43:20 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/23 16:38:55 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/23 17:38:05 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,12 @@ static void init_philosophers(t_philo *philos, t_fork *forks, t_table *table)
 	}
 }
 
-void *philosopher_routine(void *arg)
-{
-
-	t_philo *philo = (t_philo *)arg;
-	printf("Philosopher %d is alive\n", philo->id);
-	return NULL;
-}
 static int create_philosopher_threads(t_philo *philos, int nb_philo)
 {
 	int i = 0;
 	while (i < nb_philo)
 	{
-		if (pthread_create(&philos[i].thread_id, NULL, philosopher_routine, &philos[i]) != 0)
+		if (pthread_create(&philos[i].thread_id, NULL, dinner_simulation, &philos[i]) != 0)
 			return error_handler("creating thread for philosopher");
 		i++;
 	}
