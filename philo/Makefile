@@ -7,6 +7,8 @@ SRCS = main.c \
        parse.c \
 		 parse_outils.c \
 		 outils.c \
+		 init.c 
+		 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
