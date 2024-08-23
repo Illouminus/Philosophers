@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:46:44 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/22 11:52:04 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/23 18:10:16 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ static int parse_number_of_philosophers(t_table *table, const char *arg, int *er
 
 static int parse_time_value(long *time_field, const char *arg, int *error)
 {
-	*time_field = ft_atol(arg, error) * 1000;
+	*time_field = ft_atol(arg, error);
 	if (*error)
 	{
 		printf("Error: Invalid time value.\n");
 		return 1;
 	}
-	if (*time_field < 60000)
+	if (*time_field < 60)
 	{
 		printf("Error: Time value should be greater than 60ms.\n");
 		return 1;

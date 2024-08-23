@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:17 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/23 17:28:22 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/23 18:11:03 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void ft_usleep(long time_in_ms)
 	long start_time = get_current_time_in_ms();
 	long end_time = start_time + time_in_ms;
 	while (get_current_time_in_ms() < end_time)
-		usleep(10);
+		usleep(100);
 }
 
 int error_handler(const char *message)

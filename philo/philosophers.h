@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/23 17:37:44 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/23 17:52:30 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,12 @@ const char *valid_input(const char *str, int *error);
 void ft_usleep(long ms);
 int error_handler(const char *message);
 void clean_exit(t_table *table);
+long get_current_time_in_ms(void);
 
 /********************INIT********************************/
 int data_init(t_table *table);
 
 /********************DINNER********************************/
 void *dinner_simulation(void *arg);
-
+void write_status(t_philo *philo, const char *status);
 #endif
