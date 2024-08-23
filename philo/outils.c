@@ -6,27 +6,26 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:17 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/23 16:47:31 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/23 17:27:36 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philosophers.h"
 
-void ft_usleep(long ms)
+long get_current_time_in_ms(void)
 {
-	struct timeval start;
-	struct timeval now;
-	long elapsed;
+	struct timeval current_time;
+	gettimeofday(&current_time, NULL);
+	return (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
+}
 
-	gettimeofday(&start, NULL);
-	while (1)
-	{
-		gettimeofday(&now, NULL);
-		elapsed = (now.tv_sec - start.tv_sec) * 1000 + (now.tv_usec - start.tv_usec) / 1000;
-		if (elapsed >= ms)
-			break;
+void ft_usleep(long time_in_ms)
+{
+	long start_time = get_current_time_in_ms();
+	long end_time = start_time + time_in_ms;
+
+	while (get_current_time_in_ms() < end_time)
 		usleep(10);
-	}
 }
 
 int error_handler(const char *message)
