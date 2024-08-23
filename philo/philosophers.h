@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/23 16:12:18 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/23 16:47:54 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ const char *valid_input(const char *str, int *error);
 /********************UTILS********************************/
 void ft_usleep(long ms);
 int error_handler(const char *message);
+void clean_exit(t_table *table);
 
 /********************INIT********************************/
 int data_init(t_table *table);

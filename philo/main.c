@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:06:39 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/23 16:14:00 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/23 16:47:37 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 			error_handler("Error initializing data");
 		print_initialized_values(&table);
 		// start_dinner(&table);
-		// clean_exit(&table);
+		clean_exit(&table);
 	}
 	else
 	{
