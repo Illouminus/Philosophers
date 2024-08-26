@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:17 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/23 18:11:03 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/24 08:14:32 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,29 +35,28 @@ int error_handler(const char *message)
 
 void clean_exit(t_table *table)
 {
-	int i = 0;
-	while (i < table->nb_philo)
+	// Уничтожаем мьютексы философов
+	for (int i = 0; i < table->nb_philo; i++)
 	{
 		pthread_join(table->philos[i].thread_id, NULL);
-		i++;
 	}
-	i = 0;
 
-	while (i < table->nb_philo)
+	for (int i = 0; i < table->nb_philo; i++)
 	{
 		pthread_mutex_destroy(&table->philos[i].philo_mutex);
-		i++;
 	}
 
-	i = 0;
-
-	while (i < table->nb_philo)
+	// Уничтожаем мьютексы вилок
+	for (int i = 0; i < table->nb_philo; i++)
 	{
 		pthread_mutex_destroy(&table->forks[i].fork);
-		i++;
 	}
+
+	// Уничтожаем другие мьютексы
 	pthread_mutex_destroy(&table->write_mutex);
 	pthread_mutex_destroy(&table->dead_mutex);
+
+	// Освобождаем выделенную память
 	free(table->philos);
 	free(table->forks);
 }

@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/23 17:52:30 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/23 18:16:32 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,5 @@ int data_init(t_table *table);
 /********************DINNER********************************/
 void *dinner_simulation(void *arg);
 void write_status(t_philo *philo, const char *status);
+void monitoring(t_table *table);
 #endif

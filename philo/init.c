@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:43:20 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/23 17:38:52 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/24 11:51:57 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void init_philosophers(t_philo *philos, t_fork *forks, t_table *table)
 	{
 		philos[i].id = i + 1;
 		philos[i].nb_meals = 0;
-		philos[i].last_meal = 0;
+		philos[i].last_meal = get_current_time_in_ms();
 		philos[i].left_fork = &forks[i];
 		philos[i].right_fork = &forks[(i + 1) % table->nb_philo];
 		philos[i].table = table;
