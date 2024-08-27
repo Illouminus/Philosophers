@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:06:39 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/23 18:17:10 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/27 08:19:45 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ int main(int argc, char **argv)
 		if (data_init(&table) != 0)
 			error_handler("Error initializing data");
 		// print_initialized_values(&table);
-		monitoring(&table);
+		if (table.nb_philo != 1)
+			monitoring(&table);
 		clean_exit(&table);
 	}
 	else

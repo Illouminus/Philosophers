@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:17 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/24 08:14:32 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/26 16:58:05 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void clean_exit(t_table *table)
 	// Уничтожаем мьютексы философов
 	for (int i = 0; i < table->nb_philo; i++)
 	{
-		pthread_join(table->philos[i].thread_id, NULL);
+		if (table->philos[i].thread_id)
+			pthread_join(table->philos[i].thread_id, NULL);
 	}
 
 	for (int i = 0; i < table->nb_philo; i++)

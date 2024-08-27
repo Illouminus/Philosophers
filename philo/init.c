@@ -6,11 +6,20 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:43:20 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/24 11:51:57 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/27 08:19:58 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philosophers.h"
+
+void single_philosopher_simulation(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->left_fork->fork);
+	write_status(philo, "has taken a fork");
+	ft_usleep(philo->table->time_to_die);
+	write_status(philo, "died");
+	pthread_mutex_unlock(&philo->left_fork->fork);
+}
 
 // Функция для инициализации мьютексов вилок
 static int init_forks(t_fork *forks, int nb_philo)
@@ -73,9 +82,12 @@ int data_init(t_table *table)
 	table->philos = malloc(sizeof(t_philo) * table->nb_philo);
 	if (!table->philos)
 		return error_handler("allocating memory for philosophers");
-
 	init_philosophers(table->philos, table->forks, table);
-
+	if (table->nb_philo == 1)
+	{
+		single_philosopher_simulation(&table->philos[0]);
+		return 0;
+	}
 	if (create_philosopher_threads(table->philos, table->nb_philo) != 0)
 		return 1;
 
