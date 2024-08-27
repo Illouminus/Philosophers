@@ -11,6 +11,7 @@ SRCS = main.c \
 		 dinner.c \
 		 write.c \
 		 monitoring.c \
+		 exit.c \
 		 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))

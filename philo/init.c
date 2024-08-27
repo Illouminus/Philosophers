@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:43:20 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/27 10:32:40 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/27 11:03:49 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,16 @@ int data_init(t_table *table)
 
 	if (pthread_mutex_init(&table->dead_mutex, NULL) != 0)
 		return error_handler("initializing dead mutex");
-
 	table->forks = malloc(sizeof(t_fork) * table->nb_philo);
 	if (!table->forks)
 		return error_handler("allocating memory for forks");
 
 	if (init_forks(table->forks, table->nb_philo) != 0)
 		return 1;
-
 	table->philos = malloc(sizeof(t_philo) * table->nb_philo);
 	if (!table->philos)
 		return error_handler("allocating memory for philosophers");
+
 	init_philosophers(table->philos, table->forks, table);
 	if (table->nb_philo == 1)
 	{
