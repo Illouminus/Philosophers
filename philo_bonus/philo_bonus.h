@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.h                                     :+:      :+:    :+:   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/27 13:48:11 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/27 14:16:31 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILOSOPHERS_H
-#define PHILOSOPHERS_H
+#ifndef PHILO_BONUS_H
+#define PHILO_BONUS_H
 
 #include <errno.h>
 #include <limits.h>
@@ -21,15 +21,13 @@
 #include <stdlib.h>
 #include <sys/time.h>
 #include <unistd.h>
+#include <semaphore.h>
 
-typedef pthread_mutex_t t_mutex;
+#ifndef PHILO_MAX
+#define PHILO_MAX 200
+#endif
+
 typedef struct s_table t_table;
-
-typedef struct s_fork
-{
-	t_mutex fork;
-	int fork_id;
-} t_fork;
 
 typedef struct s_philo
 {
@@ -37,16 +35,9 @@ typedef struct s_philo
 	long nb_meals;
 	bool is_full;
 	long last_meal;
-	t_fork *left_fork;
-	t_fork *right_fork;
-	pthread_t thread_id;
-	t_mutex philo_mutex;
+	pid_t pid; // Используется для хранения ID процесса философа
 	t_table *table;
 } t_philo;
-
-#ifndef PHILO_MAX
-#define PHILO_MAX 200
-#endif
 
 struct s_table
 {
@@ -58,10 +49,11 @@ struct s_table
 	long start_time;
 	bool is_dead;
 	int full_philos;
-	t_mutex dead_mutex;
-	t_mutex write_mutex;
+	sem_t *forks;
+	sem_t *write_sem;
+	sem_t *dead_sem;
+
 	t_philo *philos;
-	t_fork *forks;
 };
 
 /********************PARSING********************************/
@@ -76,16 +68,6 @@ const char *valid_input(const char *str, int *error);
 /********************UTILS********************************/
 void ft_usleep(long ms);
 int error_handler(const char *message);
-void clean_exit(t_table *table);
 long get_current_time_in_ms(void);
 
-/********************INIT********************************/
-int data_init(t_table *table);
-
-/********************DINNER********************************/
-void *dinner_simulation(void *arg);
-void write_status(t_philo *philo, const char *status);
-void monitoring(t_table *table);
-int check_if_philo_is_dead(t_philo *philo);
-int check_if_philo_is_full(t_philo *philo);
 #endif
