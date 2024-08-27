@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/23 18:16:32 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/27 10:01:50 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_philo
 {
 	int id;
 	long nb_meals;
+	bool is_full;
 	long last_meal;
 	t_fork *left_fork;
 	t_fork *right_fork;
@@ -66,6 +67,7 @@ struct s_table
 	long nb_limit_meals;
 	long start_time;
 	bool is_dead;
+	int full_philos;
 	t_mutex dead_mutex;
 	t_mutex write_mutex;
 	t_philo *philos;
@@ -94,4 +96,6 @@ int data_init(t_table *table);
 void *dinner_simulation(void *arg);
 void write_status(t_philo *philo, const char *status);
 void monitoring(t_table *table);
+int check_if_philo_is_dead(t_philo *philo);
+int check_if_philo_is_full(t_philo *philo);
 #endif

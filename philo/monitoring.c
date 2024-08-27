@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 18:14:23 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/26 10:40:57 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/27 10:46:47 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void monitoring(t_table *table)
 		{
 			pthread_mutex_lock(&table->philos[i].philo_mutex);
 
-			if (get_current_time_in_ms() - table->philos[i].last_meal > table->time_to_die)
+			if (get_current_time_in_ms() - table->philos[i].last_meal > table->time_to_die && !table->philos[i].is_full)
 			{
 				write_status(&table->philos[i], "died");
 				pthread_mutex_lock(&table->dead_mutex);
@@ -29,8 +29,14 @@ void monitoring(t_table *table)
 				pthread_mutex_unlock(&table->philos[i].philo_mutex);
 				return;
 			}
+			if (table->philos[i].is_full)
+			{
+				table->full_philos++;
+			}
 			pthread_mutex_unlock(&table->philos[i].philo_mutex);
 		}
+		if (table->full_philos == table->nb_philo)
+			return;
 		ft_usleep(2000);
 	}
 }

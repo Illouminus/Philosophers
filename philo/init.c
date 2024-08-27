@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:43:20 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/27 08:19:58 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/27 10:32:40 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ static int init_forks(t_fork *forks, int nb_philo)
 static void init_philosophers(t_philo *philos, t_fork *forks, t_table *table)
 {
 	int i = 0;
+	table->full_philos = 0;
 	while (i < table->nb_philo)
 	{
 		philos[i].id = i + 1;
 		philos[i].nb_meals = 0;
+		philos[i].is_full = false;
 		philos[i].last_meal = get_current_time_in_ms();
 		philos[i].left_fork = &forks[i];
 		philos[i].right_fork = &forks[(i + 1) % table->nb_philo];
@@ -63,7 +65,6 @@ static int create_philosopher_threads(t_philo *philos, int nb_philo)
 	return 0;
 }
 
-// Основная функция для инициализации данных
 int data_init(t_table *table)
 {
 	if (pthread_mutex_init(&table->write_mutex, NULL) != 0)
@@ -90,6 +91,5 @@ int data_init(t_table *table)
 	}
 	if (create_philosopher_threads(table->philos, table->nb_philo) != 0)
 		return 1;
-
 	return 0;
 }

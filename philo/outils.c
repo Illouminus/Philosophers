@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:17 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/26 16:58:05 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/27 10:46:59 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,39 @@ void clean_exit(t_table *table)
 		pthread_mutex_destroy(&table->philos[i].philo_mutex);
 	}
 
-	// Уничтожаем мьютексы вилок
 	for (int i = 0; i < table->nb_philo; i++)
 	{
 		pthread_mutex_destroy(&table->forks[i].fork);
 	}
 
-	// Уничтожаем другие мьютексы
 	pthread_mutex_destroy(&table->write_mutex);
 	pthread_mutex_destroy(&table->dead_mutex);
 
-	// Освобождаем выделенную память
 	free(table->philos);
 	free(table->forks);
+}
+
+int check_if_philo_is_dead(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->table->dead_mutex);
+	if (philo->table->is_dead)
+	{
+		pthread_mutex_unlock(&philo->table->dead_mutex);
+		return 1;
+	}
+	pthread_mutex_unlock(&philo->table->dead_mutex);
+	return 0;
+}
+
+int check_if_philo_is_full(t_philo *philo)
+{
+	if (philo->table->nb_limit_meals != -1 && philo->nb_meals >= philo->table->nb_limit_meals)
+	{
+		write_status(philo, "is full");
+		pthread_mutex_lock(&philo->philo_mutex);
+		philo->is_full = true;
+		pthread_mutex_unlock(&philo->philo_mutex);
+		return 1;
+	}
+	return 0;
 }

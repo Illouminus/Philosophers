@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 17:36:56 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/26 11:03:36 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/27 09:57:32 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,25 +67,18 @@ void *dinner_simulation(void *arg)
 		ft_usleep(10);
 	while (1)
 	{
-		pthread_mutex_lock(&philo->table->dead_mutex);
-		if (philo->table->is_dead)
-		{
-			pthread_mutex_unlock(&philo->table->dead_mutex);
+		if (check_if_philo_is_dead(philo))
 			break;
-		}
-		pthread_mutex_unlock(&philo->table->dead_mutex);
+
+		if (check_if_philo_is_full(philo))
+			break;
 
 		philo_take_forks(philo);
 		philo_eat(philo);
 		philo_put_forks(philo);
 
-		pthread_mutex_lock(&philo->table->dead_mutex);
-		if (philo->table->is_dead)
-		{
-			pthread_mutex_unlock(&philo->table->dead_mutex);
+		if (check_if_philo_is_dead(philo))
 			break;
-		}
-		pthread_mutex_unlock(&philo->table->dead_mutex);
 
 		philo_sleep(philo);
 		write_status(philo, "is thinking");
