@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/27 14:16:31 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/27 16:18:20 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include <semaphore.h>
+#include <sys/types.h>
+#include <signal.h>
 
 #ifndef PHILO_MAX
 #define PHILO_MAX 200
@@ -52,7 +54,6 @@ struct s_table
 	sem_t *forks;
 	sem_t *write_sem;
 	sem_t *dead_sem;
-
 	t_philo *philos;
 };
 
@@ -69,5 +70,14 @@ const char *valid_input(const char *str, int *error);
 void ft_usleep(long ms);
 int error_handler(const char *message);
 long get_current_time_in_ms(void);
+void write_status(t_philo *philo, const char *status);
 
+/********************INIT********************************/
+int data_init(t_table *table);
+
+/********************PHILO********************************/
+int check_if_philo_is_dead_bonus(t_philo *philo);
+void monitor_processes(t_table *table);
+void clean_exit(t_table *table);
+void philosopher_routine(t_philo *philo);
 #endif

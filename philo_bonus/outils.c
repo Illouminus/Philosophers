@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:17 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/27 14:16:19 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/27 17:10:06 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,29 @@ int error_handler(const char *message)
 {
 	printf("Error: %s\n", message);
 	return 1;
+}
+void write_status(t_philo *philo, const char *status)
+{
+	long current_time = get_current_time_in_ms();
+
+	sem_wait(philo->table->write_sem);
+	sem_wait(philo->table->dead_sem);
+
+	if (!philo->table->is_dead)
+		printf("%ld %d %s\n", current_time - philo->table->start_time, philo->id, status);
+
+	sem_post(philo->table->dead_sem);
+	sem_post(philo->table->write_sem);
+}
+
+int check_if_philo_is_dead_bonus(t_philo *philo)
+{
+	if (get_current_time_in_ms() - philo->last_meal > philo->table->time_to_die)
+	{
+		write_status(philo, "died");
+		sem_post(philo->table->dead_sem);
+		return 1;
+	}
+
+	return 0;
 }

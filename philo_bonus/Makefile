@@ -1,5 +1,5 @@
 NAME = philo_bonus
-CC = cc -g -fsanitize=thread -g
+CC = cc -g 
 RM = rm -f
 CFLAGS = -Wall -Wextra -Werror 
 
@@ -7,6 +7,10 @@ SRCS = main.c \
        parse.c \
 		 parse_outils.c \
 		 outils.c \
+		 dinner.c \
+		 init.c \
+		 monitor.c \
+		 clean.c \
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
