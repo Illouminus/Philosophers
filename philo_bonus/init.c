@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:29:46 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/27 17:03:56 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/28 12:05:24 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,13 @@ void single_philosopher_simulation(t_philo *philo)
 	sem_post(philo->table->forks);
 }
 
-// Функция для инициализации семафоров вилок
-// Инициализация семафоров
 static int init_forks(sem_t **forks, int nb_philo)
 {
-	// Открываем семафор на nb_philo вилок
-	*forks = sem_open("/forks", O_CREAT | O_EXCL, 0644, nb_philo);
+	*forks = sem_open("/forks_sem", O_CREAT | O_EXCL, 0644, nb_philo);
 	if (*forks == SEM_FAILED)
 	{
-		sem_unlink("/forks");
-		*forks = sem_open("/forks", O_CREAT | O_EXCL, 0644, nb_philo);
+		sem_unlink("/forks_sem");
+		*forks = sem_open("/forks_sem", O_CREAT | O_EXCL, 0644, nb_philo);
 		if (*forks == SEM_FAILED)
 			return error_handler("initializing fork semaphore");
 	}
@@ -41,6 +38,7 @@ static void init_philosophers(t_philo *philos, t_table *table)
 {
 	int i = 0;
 	table->full_philos = 0;
+	table->start_time = get_current_time_in_ms();
 	while (i < table->nb_philo)
 	{
 		philos[i].id = i + 1;

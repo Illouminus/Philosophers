@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 16:15:56 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/27 16:16:08 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/28 11:02:24 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void clean_exit(t_table *table)
 	sem_unlink("/write_sem");
 	sem_unlink("/dead_sem");
 
-	free(table->philos);
-	free(table->forks);
+	if (table->philos)
+		free(table->philos);
 	exit(0);
 }

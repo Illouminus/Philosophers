@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:43:20 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/27 11:03:49 by edouard          ###   ########.fr       */
+/*   Updated: 2024/08/28 12:07:50 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void init_philosophers(t_philo *philos, t_fork *forks, t_table *table)
 {
 	int i = 0;
 	table->full_philos = 0;
+	table->start_time = get_current_time_in_ms();
 	while (i < table->nb_philo)
 	{
 		philos[i].id = i + 1;
