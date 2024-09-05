@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:06:39 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/27 17:04:47 by edouard          ###   ########.fr       */
+/*   Updated: 2024/09/05 16:21:11 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int main(int argc, char **argv)
 			return 1;
 		}
 		// print_data(&table);
+		sem_wait(table.dead_sem);
+		sem_wait(table.dead_sem);
 		if (table.nb_philo != 1)
 			monitor_processes(&table);
 	}

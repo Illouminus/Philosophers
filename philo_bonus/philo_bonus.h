@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/27 16:18:20 by edouard          ###   ########.fr       */
+/*   Updated: 2024/09/05 16:34:10 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ typedef struct s_philo
 	long nb_meals;
 	bool is_full;
 	long last_meal;
-	pid_t pid; // Используется для хранения ID процесса философа
+	long next_meal;
+	pid_t pid;
 	t_table *table;
 } t_philo;
 
@@ -51,7 +52,7 @@ struct s_table
 	long start_time;
 	bool is_dead;
 	int full_philos;
-	sem_t *forks;
+	sem_t *forks_sem;
 	sem_t *write_sem;
 	sem_t *dead_sem;
 	t_philo *philos;
@@ -80,4 +81,5 @@ int check_if_philo_is_dead_bonus(t_philo *philo);
 void monitor_processes(t_table *table);
 void clean_exit(t_table *table);
 void philosopher_routine(t_philo *philo);
+void *check_death(void *arg);
 #endif

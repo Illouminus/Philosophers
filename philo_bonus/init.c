@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:29:46 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/28 14:22:33 by edouard          ###   ########.fr       */
+/*   Updated: 2024/09/05 16:33:15 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 
 void single_philosopher_simulation(t_philo *philo)
 {
-	sem_wait(philo->table->forks);
+	sem_wait(philo->table->forks_sem);
 	write_status(philo, "has taken a fork");
 	ft_usleep(philo->table->time_to_die);
 	write_status(philo, "died");
-	sem_post(philo->table->forks);
+	sem_post(philo->table->forks_sem);
 }
 
-static int init_forks(sem_t **forks, int nb_philo)
+static int init_semaphores(t_table *table)
 {
-	*forks = sem_open("/forks_sem", O_CREAT | O_EXCL, 0644, nb_philo);
-	if (*forks == SEM_FAILED)
-	{
-		sem_unlink("/forks_sem");
-		*forks = sem_open("/forks_sem", O_CREAT | O_EXCL, 0644, nb_philo);
-		if (*forks == SEM_FAILED)
-			return error_handler("initializing fork semaphore");
-	}
+	sem_unlink("/write_sem");
+	sem_unlink("/dead_sem");
+	sem_unlink("/forks_sem");
+	table->write_sem = sem_open("/write_sem", O_CREAT, 0644, 1);
+	table->dead_sem = sem_open("/dead_sem", O_CREAT, 0644, 1);
+	table->forks_sem = sem_open("/forks_sem", O_CREAT, 0644, table->nb_philo);
+	if (table->write_sem == SEM_FAILED || table->dead_sem == SEM_FAILED || table->forks_sem == SEM_FAILED)
+		return error_handler("initializing semaphores");
 	return 0;
 }
 
@@ -44,7 +44,6 @@ static void init_philosophers(t_philo *philos, t_table *table)
 		philos[i].id = i + 1;
 		philos[i].nb_meals = 0;
 		philos[i].is_full = false;
-		philos[i].last_meal = get_current_time_in_ms();
 		philos[i].table = table;
 		i++;
 	}
@@ -64,20 +63,15 @@ static int create_philosopher_processes(t_philo *philos, int nb_philo)
 			exit(0);
 		}
 		i++;
+		usleep(100); // WTFFFF
 	}
 	return 0;
 }
 
 int data_init(t_table *table)
 {
-	if (init_forks(&table->forks, table->nb_philo) != 0)
+	if (init_semaphores(table) != 0)
 		return 1;
-	table->write_sem = sem_open("/write_sem", O_CREAT, 0644, 1);
-	if (table->write_sem == SEM_FAILED)
-		return error_handler("initializing write semaphore");
-	table->dead_sem = sem_open("/dead_sem", O_CREAT, 0644, 1);
-	if (table->dead_sem == SEM_FAILED)
-		return error_handler("initializing dead semaphore");
 	table->philos = malloc(sizeof(t_philo) * table->nb_philo);
 	if (!table->philos)
 		return error_handler("allocating memory for philosophers");
@@ -87,7 +81,9 @@ int data_init(t_table *table)
 		single_philosopher_simulation(&table->philos[0]);
 		return 0;
 	}
+
 	if (create_philosopher_processes(table->philos, table->nb_philo) != 0)
 		return 1;
+
 	return 0;
 }
