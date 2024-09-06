@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:06:39 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/05 16:21:11 by edouard          ###   ########.fr       */
+/*   Updated: 2024/09/06 10:37:04 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,25 +50,15 @@ int main(int argc, char **argv)
 	if (argc == 5 || argc == 6)
 	{
 		if (parse_args(&table, argv) != 0)
-		{
-			printf("Error parsing arguments\n");
-			return 1;
-		}
+			return (error_handler("Error parsing arguments"));
 		if (data_init(&table) != 0)
-		{
-			printf("Error initializing data\n");
-			return 1;
-		}
+			return (error_handler("Error initializing data"));
 		// print_data(&table);
 		sem_wait(table.dead_sem);
 		sem_wait(table.dead_sem);
-		if (table.nb_philo != 1)
-			monitor_processes(&table);
+		monitor_processes(&table);
 	}
 	else
-	{
-		printf("Invalid numbers of arguments \n");
-		return 1;
-	}
+		return (error_handler("Invalid numbers of arguments"));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:17 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/05 16:45:28 by edouard          ###   ########.fr       */
+/*   Updated: 2024/09/06 09:10:55 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void write_status(t_philo *philo, const char *status)
 
 	sem_wait(philo->table->write_sem);
 	if (!philo->table->is_dead)
+	{
 		printf("%ld %d %s\n", current_time - philo->table->start_time, philo->id, status);
-	sem_post(philo->table->write_sem);
+		sem_post(philo->table->write_sem);
+	}
 }

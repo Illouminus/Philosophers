@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 16:13:29 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/05 16:36:48 by edouard          ###   ########.fr       */
+/*   Updated: 2024/09/06 10:39:45 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,11 @@ void *check_death(void *arg)
 	{
 		if (philo->next_meal < get_current_time_in_ms())
 		{
-			printf("Current time: %ld\n", get_current_time_in_ms());
-			printf("Last meal + time to die: %ld\n", philo->last_meal + philo->table->time_to_die);
 			write_status(philo, "died");
 			sem_post(philo->table->dead_sem);
 			break;
 		}
-		// ft_usleep(1000);
+		ft_usleep(1000);
 	}
 	return NULL;
 }

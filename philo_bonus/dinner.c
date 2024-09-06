@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 15:42:39 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/05 16:42:10 by edouard          ###   ########.fr       */
+/*   Updated: 2024/09/06 08:40:09 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void philosopher_eat(t_philo *philo)
 {
 	write_status(philo, "is eating");
-	usleep(philo->table->time_to_eat * 1000);
+	ft_usleep(philo->table->time_to_eat);
 	philo->last_meal = get_current_time_in_ms();
 	philo->next_meal = philo->last_meal + philo->table->time_to_die;
 	// philo->nb_meals++;
@@ -38,7 +38,7 @@ void philosopher_put_forks(t_philo *philo)
 void philosopher_sleep(t_philo *philo)
 {
 	write_status(philo, "is sleeping");
-	usleep(philo->table->time_to_sleep * 1000);
+	ft_usleep(philo->table->time_to_sleep);
 }
 
 void philosopher_routine(t_philo *philo)
