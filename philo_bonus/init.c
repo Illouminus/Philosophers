@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:29:46 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/06 10:36:47 by edouard          ###   ########.fr       */
+/*   Updated: 2024/09/07 11:45:25 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int single_philosopher_simulation(t_philo *philo)
 	write_status(philo, "died");
 	sem_post(philo->table->forks_sem);
 	clean_exit(philo->table);
-
 	return 0;
 }
 
@@ -30,7 +29,7 @@ static int init_semaphores(t_table *table)
 	sem_unlink("/dead_sem");
 	sem_unlink("/forks_sem");
 	table->write_sem = sem_open("/write_sem", O_CREAT, 0644, 1);
-	table->dead_sem = sem_open("/dead_sem", O_CREAT, 0644, 1);
+	table->dead_sem = sem_open("/dead_sem", O_CREAT, 0644, 0);
 	table->forks_sem = sem_open("/forks_sem", O_CREAT, 0644, table->nb_philo);
 	if (table->write_sem == SEM_FAILED ||
 		 table->dead_sem == SEM_FAILED ||
@@ -42,13 +41,12 @@ static int init_semaphores(t_table *table)
 static void init_philosophers(t_philo *philos, t_table *table)
 {
 	int i = 0;
-	table->full_philos = 0;
 	table->start_time = get_current_time_in_ms();
+
 	while (i < table->nb_philo)
 	{
 		philos[i].id = i + 1;
 		philos[i].nb_meals = 0;
-		philos[i].is_full = false;
 		philos[i].table = table;
 		i++;
 	}

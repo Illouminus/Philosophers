@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 16:15:56 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/06 10:38:37 by edouard          ###   ########.fr       */
+/*   Updated: 2024/09/07 11:46:50 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,17 @@ void clean_exit(t_table *table)
 	if (table->philos)
 		free(table->philos);
 	exit(0);
+}
+
+void finish_simulation(t_table *table)
+{
+	int i;
+
+	i = 0;
+	while (i < table->nb_philo)
+	{
+		kill(table->philos[i].pid, SIGKILL);
+		i++;
+	}
+	clean_exit(table);
 }

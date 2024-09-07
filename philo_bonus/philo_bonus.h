@@ -6,7 +6,7 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/05 16:34:10 by edouard          ###   ########.fr       */
+/*   Updated: 2024/09/07 11:44:34 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct s_philo
 {
 	int id;
 	long nb_meals;
-	bool is_full;
 	long last_meal;
 	long next_meal;
 	pid_t pid;
@@ -50,8 +49,6 @@ struct s_table
 	long time_to_sleep;
 	long nb_limit_meals;
 	long start_time;
-	bool is_dead;
-	int full_philos;
 	sem_t *forks_sem;
 	sem_t *write_sem;
 	sem_t *dead_sem;
@@ -77,8 +74,7 @@ void write_status(t_philo *philo, const char *status);
 int data_init(t_table *table);
 
 /********************PHILO********************************/
-int check_if_philo_is_dead_bonus(t_philo *philo);
-void monitor_processes(t_table *table);
+void finish_simulation(t_table *table);
 void clean_exit(t_table *table);
 void philosopher_routine(t_philo *philo);
 void *check_death(void *arg);

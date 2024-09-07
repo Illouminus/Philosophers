@@ -6,24 +6,11 @@
 /*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 16:13:29 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/06 10:39:45 by edouard          ###   ########.fr       */
+/*   Updated: 2024/09/07 11:46:43 by edouard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philo_bonus.h"
-
-void monitor_processes(t_table *table)
-{
-	int i;
-
-	i = 0;
-	while (i < table->nb_philo)
-	{
-		kill(table->philos[i].pid, SIGKILL);
-		i++;
-	}
-	clean_exit(table);
-}
 
 void *check_death(void *arg)
 {
@@ -36,6 +23,13 @@ void *check_death(void *arg)
 			sem_post(philo->table->dead_sem);
 			break;
 		}
+		if (philo->table->nb_limit_meals != -1)
+			if (philo->nb_meals >= philo->table->nb_limit_meals)
+			{
+				sem_post(philo->table->dead_sem);
+				break;
+			}
+
 		ft_usleep(1000);
 	}
 	return NULL;
