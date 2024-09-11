@@ -1,5 +1,5 @@
 NAME = philo
-CC = cc -g -fsanitize=thread -g
+CC = cc -g 
 RM = rm -f
 CFLAGS = -Wall -Wextra -Werror 
 

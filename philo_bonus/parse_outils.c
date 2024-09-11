@@ -3,47 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   parse_outils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edouard <edouard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 11:51:13 by edouard           #+#    #+#             */
-/*   Updated: 2024/08/27 14:16:27 by edouard          ###   ########.fr       */
+/*   Updated: 2024/09/11 17:18:56 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philo_bonus.h"
 
-bool is_digit(char c)
-{
-	return (c >= '0' && c <= '9');
-}
-
-bool is_space(char c)
+bool	is_space(char c)
 {
 	return (c == ' ' || (c >= 9 && c <= 13));
 }
-const char *check_sign(const char *str, int *error)
+
+const char	*check_sign(const char *str, int *error)
 {
 	if (*str == '+')
-		return str + 1;
+		return (str + 1);
 	else if (*str == '-')
 	{
 		*error = 1;
-		return NULL;
+		return (NULL);
 	}
-	return str;
+	return (str);
 }
 
-const char *skip_spaces(const char *str)
+const char	*skip_spaces(const char *str)
 {
 	while (is_space(*str))
 		str++;
-	return str;
+	return (str);
 }
-const char *check_digits(const char *str, int *error)
-{
-	int len = 0;
-	const char *nmb = str;
 
+const char	*check_digits(const char *str, int *error)
+{
+	int			len;
+	const char	*nmb = str;
+
+	len = 0;
 	while (is_digit(*str))
 	{
 		len++;
@@ -52,16 +50,16 @@ const char *check_digits(const char *str, int *error)
 	if (len == 0 || len > 10)
 	{
 		*error = 1;
-		return NULL;
+		return (NULL);
 	}
-	return nmb;
+	return (nmb);
 }
 
-const char *valid_input(const char *str, int *error)
+const char	*valid_input(const char *str, int *error)
 {
 	str = skip_spaces(str);
 	str = check_sign(str, error);
 	if (*error)
-		return NULL;
-	return check_digits(str, error);
+		return (NULL);
+	return (check_digits(str, error));
 }

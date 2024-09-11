@@ -11,6 +11,7 @@ SRCS = main.c \
 		 init.c \
 		 monitor.c \
 		 clean.c \
+		 libft.c \
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
