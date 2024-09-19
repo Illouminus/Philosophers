@@ -6,7 +6,7 @@
 /*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:29:46 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/11 18:49:48 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:11:05 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,11 @@ static int	init_semaphores(t_table *table)
 	sem_unlink("/write_sem");
 	sem_unlink("/dead_sem");
 	sem_unlink("/forks_sem");
-	sem_unlink("/full_philos_sem");
-	sem_unlink("/block_dead");
 	table->write_sem = sem_open("/write_sem", O_CREAT, 0644, 1);
-	table->block_dead = sem_open("/block_dead", O_CREAT, 0644, 1);
 	table->dead_sem = sem_open("/dead_sem", O_CREAT, 0644, 0);
-	table->full_philos_sem = sem_open("/full_philos_sem", O_CREAT, 0644, 0);
 	table->forks_sem = sem_open("/forks_sem", O_CREAT, 0644, table->nb_philo);
 	if (table->write_sem == SEM_FAILED || table->dead_sem == SEM_FAILED
-		|| table->forks_sem == SEM_FAILED || table->full_philos_sem == SEM_FAILED
-		|| table->block_dead == SEM_FAILED)
+		|| table->forks_sem == SEM_FAILED)
 		return (error_handler("initializing semaphores"));
 	return (0);
 }
@@ -45,25 +40,17 @@ static int	init_semaphores(t_table *table)
 static void	init_philosophers(t_philo *philos, t_table *table)
 {
 	int		i;
-	char	*sem_name;
-	char	*id_str;
 
 	i = 0;
-	table->start_time = get_current_time_in_ms();
 	table->dead = false;
+	table->start_time = get_current_time_in_ms();
 	while (i < table->nb_philo)
 	{
 		philos[i].id = i + 1;
 		philos[i].nb_meals = 0;
+		philos[i].next_meal = 0;
+		philos[i].last_meal = 0;
 		philos[i].table = table;
-		id_str = ft_itoa(philos[i].id);
-		sem_name = ft_strjoin("/philo_sem_", id_str);
-		free(id_str);
-		sem_unlink(sem_name);
-		philos[i].philo_sem = sem_open(sem_name, O_CREAT, 0644, 1);
-		free(sem_name);
-		if (philos[i].philo_sem == SEM_FAILED)
-			error_handler("initializing semaphores");
 		i++;
 	}
 }
@@ -79,7 +66,10 @@ static int	create_philosopher_processes(t_philo *philos, int nb_philo)
 		if (philos[i].pid < 0)
 			return (error_handler("creating process for philosopher"));
 		if (philos[i].pid == 0)
+		{
 			philosopher_routine(&philos[i]);
+			exit(0);
+		}
 		i++;
 		ft_usleep(100);
 	}

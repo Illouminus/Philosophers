@@ -6,7 +6,7 @@
 /*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:17 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/11 18:48:50 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:37:16 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,14 @@ int	error_handler(const char *message)
 void	write_status(t_philo *philo, const char *status)
 {
 	long	current_time;
+	
+	current_time = get_current_time_in_ms();
 
 	sem_wait(philo->table->write_sem);
-
-	sem_wait(philo->table->block_dead);
-	if (philo->table->dead) 
-	{
-		printf("%ld %d %s\n", get_current_time_in_ms() - philo->table->start_time,
-			philo->id, "died");
-		sem_post(philo->table->block_dead);
-		sem_post(philo->table->write_sem);
-		return;
-	}
-	sem_post(philo->table->block_dead);
-
-	current_time = get_current_time_in_ms();
-	printf("%ld %d %s\n", current_time - philo->table->start_time, philo->id,
-		status);
-
+	printf("%ld %d %s\n", current_time - philo->table->start_time, philo->id, status);
 	sem_post(philo->table->write_sem);
 }
+
 
 
 bool	is_digit(char c)

@@ -6,7 +6,7 @@
 /*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 15:42:39 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/11 18:28:08 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:37:19 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 
 void	philosopher_eat(t_philo *philo)
 {
-	write_status(philo, "is eating");
-	sem_wait(philo->philo_sem);
 	philo->last_meal = get_current_time_in_ms();
-	philo->next_meal = philo->last_meal + philo->table->time_to_die;
 	if (philo->table->nb_limit_meals != -1)
 		philo->nb_meals++;
-	sem_post(philo->philo_sem);
+	write_status(philo, "is eating");
 	ft_usleep(philo->table->time_to_eat);
 }
 
@@ -47,12 +44,8 @@ void	philosopher_sleep(t_philo *philo)
 
 void	philosopher_routine(t_philo *philo)
 {
-	pthread_t	philo_thread;
-
-	philo->next_meal = get_current_time_in_ms() + philo->table->time_to_die;
-	pthread_create(&philo_thread, NULL, check_death, philo);
-	pthread_detach(philo_thread);
-	while (1)
+	philo->last_meal = get_current_time_in_ms();
+	while (!philo->table->dead)
 	{
 		philosopher_take_forks(philo);
 		philosopher_eat(philo);

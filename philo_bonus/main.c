@@ -6,7 +6,7 @@
 /*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:06:39 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/11 18:36:06 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:11:56 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	main(int argc, char **argv)
 {
 	t_table	table;
-	int		i;
 
 	if (argc == 5 || argc == 6)
 	{
@@ -23,16 +22,9 @@ int	main(int argc, char **argv)
 			return (error_handler("Error parsing arguments"));
 		if (data_init(&table) != 0)
 			return (error_handler("Error initializing data"));
-		sem_wait(table.dead_sem);
-		if (table.nb_limit_meals != -1 && table.nb_philo != 1)
-		{
-			i = 0;
-			while (i < table.nb_philo)
-			{
-				sem_wait(table.full_philos_sem);
-				i++;
-			}
-		}
+		monitor_philosophers(&table);
+		for (int i = 0; i < table.nb_philo; i++)
+			waitpid(table.philos[i].pid, NULL, 0);
 		finish_simulation(&table);
 	}
 	else

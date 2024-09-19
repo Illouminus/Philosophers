@@ -6,7 +6,7 @@
 /*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/11 18:46:29 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:06:35 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <pthread.h>
+#include <sys/wait.h>
 # include <semaphore.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <sys/time.h>
 # include <sys/types.h>
 # include <unistd.h>
@@ -38,7 +40,6 @@ typedef struct s_philo
 	long				nb_meals;
 	long				last_meal;
 	long				next_meal;
-	sem_t				*philo_sem;
 	pid_t				pid;
 	t_table				*table;
 }						t_philo;
@@ -52,11 +53,9 @@ struct					s_table
 	long				nb_limit_meals;
 	long				start_time;
 	bool				dead;
-	sem_t 				*block_dead;
 	sem_t				*forks_sem;
 	sem_t				*write_sem;
 	sem_t				*dead_sem;
-	sem_t				*full_philos_sem;
 	t_philo				*philos;
 };
 
@@ -85,4 +84,5 @@ void					philosopher_routine(t_philo *philo);
 void					*check_death(void *arg);
 char					*ft_strjoin(char const *s1, char const *s2);
 char					*ft_itoa(int n);
+void					monitor_philosophers(t_table *table);
 #endif

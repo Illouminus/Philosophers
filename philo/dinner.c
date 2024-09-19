@@ -6,7 +6,7 @@
 /*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 17:36:56 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/11 15:27:28 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/09/19 09:29:14 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	philo_sleep(t_philo *philo)
 
 void	*dinner_simulation(void *arg)
 {
-	t_philo	*philo;
+	t_philo		*philo;
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
@@ -58,6 +58,8 @@ void	*dinner_simulation(void *arg)
 		philo_put_forks(philo);
 		philo_sleep(philo);
 		write_status(philo, "is thinking");
+		if (check_if_philo_is_dead(philo) || check_if_philo_is_full(philo))
+			break ;
 	}
 	return (NULL);
 }
