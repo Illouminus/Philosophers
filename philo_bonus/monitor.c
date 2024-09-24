@@ -6,7 +6,7 @@
 /*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 16:13:29 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/19 12:11:53 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:32:06 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void monitor_philosophers(t_table *table) {
         for (int i = 0; i < table->nb_philo; i++) {
             sem_wait(table->dead_sem);
             long time_since_last_meal = get_current_time_in_ms() - table->philos[i].last_meal;
+            printf("time since last meal: %ld\n", time_since_last_meal);
+            printf("time to die: %ld\n", table->time_to_die);
             if (time_since_last_meal > table->time_to_die) {
                write_status(&table->philos[i], "died");
                 table->dead = true;

@@ -6,7 +6,7 @@
 /*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:17 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/11 14:43:13 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:39:20 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ long	get_current_time_in_ms(void)
 	struct timeval	current_time;
 
 	gettimeofday(&current_time, NULL);
-	return (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
+	return ((current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
 }
 
 void	ft_usleep(long time_in_ms)

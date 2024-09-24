@@ -6,7 +6,7 @@
 /*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 16:15:56 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/19 12:05:55 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:25:50 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ void	clean_exit(t_table *table)
 void	finish_simulation(t_table *table)
 {
 	int	i;
-
 	i = 0;
-
 	clean_exit(table);
 	if (table->philos)
 		free(table->philos);

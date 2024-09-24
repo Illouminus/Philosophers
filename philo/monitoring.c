@@ -6,7 +6,7 @@
 /*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 18:14:23 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/19 09:24:27 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:37:31 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	check_philosopher_death(t_philo *philo)
 	{
 		write_status(philo, "died");
 		pthread_mutex_lock(&philo->table->dead_mutex);
-		philo->table->is_dead = true; 
+		philo->table->is_dead = true;
 		pthread_mutex_unlock(&philo->table->dead_mutex);
 		has_died = true;
 	}
@@ -44,7 +44,6 @@ bool	check_philosopher_full(t_philo *philo)
 		philo->table->is_dead = true;
 		pthread_mutex_unlock(&philo->table->dead_mutex);
 		pthread_mutex_unlock(&philo->table->full_mutex);
-
 	}
 	pthread_mutex_unlock(&philo->table->full_mutex);
 	return (is_full);
@@ -52,14 +51,15 @@ bool	check_philosopher_full(t_philo *philo)
 
 void	monitoring(t_table *table)
 {
-	int i;
+	int	i;
+
 	while (1)
 	{
 		i = 0;
 		while (i < table->nb_philo)
 		{
 			if (check_philosopher_death(&table->philos[i]))
-				return ; 
+				return ;
 			if (check_philosopher_full(&table->philos[i]))
 				return ;
 			i++;

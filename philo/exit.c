@@ -6,7 +6,7 @@
 /*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:10:42 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/11 15:06:44 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:38:58 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@ void	join_threads(t_table *table)
 
 	i = 0;
 	if (table->philos[i].thread_id)
+	{
 		while (i < table->nb_philo)
 		{
 			if (table->philos[i].thread_id)
 				pthread_join(table->philos[i].thread_id, NULL);
 			i++;
 		}
+	}
 }
 
 void	destroy_mutexes(t_table *table)
