@@ -6,7 +6,7 @@
 /*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 15:42:39 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/19 11:37:19 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:37:20 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,36 @@ void	philosopher_sleep(t_philo *philo)
 	ft_usleep(philo->table->time_to_sleep);
 }
 
+void	*monitor_philosopher(void *philo_void)
+{
+	t_philo	*philo;
+	long	current_time;
+
+	philo = (t_philo *)philo_void;
+	while (!philo->table->dead)
+	{
+		current_time = get_current_time_in_ms();
+		if (current_time - philo->last_meal > philo->table->time_to_die)
+		{
+			write_status(philo, "died");
+			philo->table->dead = true;
+			sem_post(philo->table->dead_sem);
+			return (NULL);
+		}
+		ft_usleep(1); // Немного увеличьте время для стабильности
+	}
+	return (NULL);
+}
+
 void	philosopher_routine(t_philo *philo)
 {
+	pthread_t	monitor_thread;
+
+
 	philo->last_meal = get_current_time_in_ms();
+	pthread_create(&monitor_thread, NULL, monitor_philosopher, philo);
+	pthread_detach(monitor_thread);
+	
 	while (!philo->table->dead)
 	{
 		philosopher_take_forks(philo);

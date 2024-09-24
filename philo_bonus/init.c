@@ -6,7 +6,7 @@
 /*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:29:46 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/19 12:11:05 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:31:43 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,12 @@ static void	init_philosophers(t_philo *philos, t_table *table)
 		philos[i].id = i + 1;
 		philos[i].nb_meals = 0;
 		philos[i].next_meal = 0;
-		philos[i].last_meal = 0;
 		philos[i].table = table;
 		i++;
 	}
 }
 
-static int	create_philosopher_processes(t_philo *philos, int nb_philo)
+int	create_philosopher_processes(t_philo *philos, int nb_philo)
 {
 	int	i;
 
@@ -66,12 +65,9 @@ static int	create_philosopher_processes(t_philo *philos, int nb_philo)
 		if (philos[i].pid < 0)
 			return (error_handler("creating process for philosopher"));
 		if (philos[i].pid == 0)
-		{
 			philosopher_routine(&philos[i]);
-			exit(0);
-		}
 		i++;
-		ft_usleep(100);
+		ft_usleep(3);
 	}
 	return (0);
 }
@@ -86,5 +82,5 @@ int	data_init(t_table *table)
 	init_philosophers(table->philos, table);
 	if (table->nb_philo == 1)
 		return (single_philosopher_simulation(&table->philos[0]));
-	return (create_philosopher_processes(table->philos, table->nb_philo));
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ebaillot <ebaillot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 10:07:06 by edouard           #+#    #+#             */
-/*   Updated: 2024/09/19 12:06:35 by ebaillot         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:07:52 by ebaillot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <pthread.h>
-#include <sys/wait.h>
 # include <semaphore.h>
 # include <signal.h>
 # include <stdbool.h>
@@ -26,6 +25,7 @@
 # include <string.h>
 # include <sys/time.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 # ifndef PHILO_MAX
@@ -81,7 +81,8 @@ int						data_init(t_table *table);
 void					finish_simulation(t_table *table);
 void					clean_exit(t_table *table);
 void					philosopher_routine(t_philo *philo);
-void					*check_death(void *arg);
+int						create_philosopher_processes(t_philo *philos,
+							int nb_philo);
 char					*ft_strjoin(char const *s1, char const *s2);
 char					*ft_itoa(int n);
 void					monitor_philosophers(t_table *table);
